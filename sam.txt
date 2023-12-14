@@ -1,0 +1,1041 @@
+    body {
+      background-image: url('image.jpg');
+      background-size: 180%;
+      background-position: center;
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+
+      <div class="image-button" onclick="openBirthdayMessage()">
+    <img src="envelope_button.png" alt="Envelope Button" width="90" height="90">
+
+
+
+  <div class="bubble" id="bubble1" onclick="openMessage('Hello, World!', 'image1.png', 'Title 1', 'Message 1', event)" onmousedown="startDragging(event)" onmouseup="stopDragging(event)"></div>
+  <div class="bubble" id="bubble2" onclick="openMessage('Welcome to the birthday bubbles!', 'image2.png', 'Title 2', 'Message 2', event)" onmousedown="startDragging(event)" onmouseup="stopDragging(event)"></div>
+  <div class="bubble" id="bubble3" onclick="openMessage('Tap on a bubble to open a message.', 'image3.png', 'Title 3', 'Message 3', event)" onmousedown="startDragging(event)" onmouseup="stopDragging(event)"></div>
+  <div class="bubble" id="bubble4" onclick="openMessage('Bubbles make birthdays more fun!', 'image4.png', 'Title 4', 'Message 4', event)" onmousedown="startDragging(event)" onmouseup="stopDragging(event)"></div>
+  <div class="bubble" id="bubble5" onclick="openMessage('Enjoy the birthday celebration!', 'image5.png', 'Title 5', 'Message 5', event)" onmousedown="startDragging(event)" onmouseup="stopDragging(event)"></div>
+  <div class="bubble" id="bubble6" onclick="openMessage('Have a fantastic birthday!', 'image6.png', 'Title 6', 'Message 6', event)" onmousedown="startDragging(event)" onmouseup="stopDragging(event)"></div>
+  <div class="bubble" id="bubble7" onclick="openMessage('Wishing you a joyful day!', 'image7.png', 'Title 7', 'Message 7', event)" onmousedown="startDragging(event)" onmouseup="stopDragging(event)"></div>
+
+
+    .message-box {
+      width: 800px;
+      height: 600px;
+      background-color: #E91E63;
+      color: #FFF;
+      border-radius: 30px;
+      padding: 20px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: none;
+      z-index: 1; /* Move the image behind the message */
+      overflow: auto; /* Enable scrolling if content exceeds the box */
+    }
+
+    /* CSS for bubble message image */
+    .message-image {
+      width: 600px;
+      height: 400px;
+      margin: 0 auto;
+      border-radius: 30px;
+      display: block;
+    }
+
+Working
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Birthday Bubbles</title>
+  <style>
+    /* CSS for bubbles */
+    .bubble {
+      width: 100px;
+      height: 100px;
+      background-color: #FFC107;
+      border-radius: 50%;
+      position: absolute;
+      cursor: pointer; /* Use pointer instead of grab */
+    }
+
+    /* CSS for message box */
+    .message-box {
+      width: 200px;
+      height: 150px;
+      background-color: #E91E63;
+      color: #FFF;
+      border-radius: 10px;
+      padding: 20px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: none;
+    }
+
+    /* CSS for image button */
+    .image-button {
+      width: 120px;
+      height: 120px;
+      position: absolute;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      cursor: pointer;
+    }
+
+    /* CSS for birthday message */
+    .birthday-message {
+      width: 300px;
+      height: 200px;
+      background-color: #FFF;
+      color: #333;
+      border-radius: 10px;
+      padding: 20px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: none;
+    }
+
+    /* CSS for overlay */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: none;
+    }
+
+    /* CSS for birthday image */
+    .birthday-image {
+      width: 800px;
+      height: 600px;
+      position: absolute;
+      top: 38%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: -1; /* Move the image behind the message */
+    }
+    body {
+      background-image: url('image.jpg');
+      background-size: 180%;
+      background-position: center;
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+  <div class="bubble" onclick="openMessage('Hello, World!', event)" onmousedown="startDragging(event)" onmouseup="stopDragging(event)"></div>
+  <div class="bubble" onclick="openMessage('Welcome to the birthday bubbles!', event)" onmousedown="startDragging(event)" onmouseup="stopDragging(event)"></div>
+  <div class="bubble" onclick="openMessage('Tap on a bubble to open a message.', event)" onmousedown="startDragging(event)" onmouseup="stopDragging(event)"></div>
+  <div class="bubble" onclick="openMessage('Bubbles make birthdays more fun!', event)" onmousedown="startDragging(event)" onmouseup="stopDragging(event)"></div>
+  <div class="bubble" onclick="openMessage('Enjoy the birthday celebration!', event)" onmousedown="startDragging(event)" onmouseup="stopDragging(event)"></div>
+  <div class="bubble" onclick="openMessage('Have a fantastic birthday!', event)" onmousedown="startDragging(event)" onmouseup="stopDragging(event)"></div>
+  <div class="bubble" onclick="openMessage('Wishing you a joyful day!', event)" onmousedown="startDragging(event)" onmouseup="stopDragging(event)"></div>
+
+  <div id="message" class="message-box"></div>
+
+  <div class="overlay" onclick="closeBirthdayMessage()"></div>
+
+  <img src="birthday_image.png" alt="Birthday Image" class="birthday-image">
+
+  <div class="image-button" onclick="openBirthdayMessage()">
+    <img src="envelope_button.png" alt="Envelope Button" width="90" height="90">
+  </div>
+
+  <div id="birthdayMessage" class="birthday-message">
+    <h2>Happy Birthday!</h2>
+    <p>Wishing you a wonderful day filled with joy, laughter, and love. May all your dreams and wishes come true on this special day. Have an amazing birthday!</p>
+  </div>
+
+  <script>
+    let bubbleElements = document.getElementsByClassName('bubble');
+    let isDragging = false;
+    let bubble = null;
+    let initialMouseX = 0;
+    let initialMouseY = 0;
+    let initialBubbleX = 0;
+    let initialBubbleY = 0;
+    let bubbleSpeedX = [];
+    let bubbleSpeedY = [];
+
+    function openMessage(text, event) {
+      event.stopPropagation(); // Prevent bubbling to close the message
+      const messageBox = document.getElementById('message');
+      messageBox.innerHTML = text;
+      messageBox.style.display = 'block';
+    }
+
+    function closeMessage() {
+      const messageBox = document.getElementById('message');
+      messageBox.style.display = 'none';
+    }
+
+    function startDragging(event) {
+      isDragging = true;
+      bubble = event.target;
+      initialMouseX = event.clientX;
+      initialMouseY = event.clientY;
+      const bubbleStyle = window.getComputedStyle(bubble);
+      initialBubbleX = parseFloat(bubbleStyle.left);
+      initialBubbleY = parseFloat(bubbleStyle.top);
+      bubble.style.cursor = 'grabbing';
+    }
+
+    function stopDragging(event) {
+      isDragging = false;
+      bubble.style.cursor = 'pointer'; // Restore pointer cursor
+    }
+
+    function moveBubble(event) {
+      if (isDragging) {
+        const deltaX = event.clientX - initialMouseX;
+        const deltaY = event.clientY - initialMouseY;
+        bubble.style.left = `${initialBubbleX + deltaX}px`;
+        bubble.style.top = `${initialBubbleY + deltaY}px`;
+      }
+    }
+
+    function getRandomSpeed() {
+      return (Math.random() - 0.5) * 2; // Random speed between -2 and 2
+    }
+
+    function updateBubblePositions() {
+      for (let i = 0; i < bubbleElements.length; i++) {
+        const bubble = bubbleElements[i];
+        const bubbleStyle = window.getComputedStyle(bubble);
+        let bubbleX = parseFloat(bubbleStyle.left);
+        let bubbleY = parseFloat(bubbleStyle.top);
+
+        // Update bubble position
+        bubbleX += bubbleSpeedX[i];
+        bubbleY += bubbleSpeedY[i];
+        bubble.style.left = `${bubbleX}px`;
+        bubble.style.top = `${bubbleY}px`;
+
+        // Check collision with window borders
+        const bubbleWidth = bubble.offsetWidth;
+        const bubbleHeight = bubble.offsetHeight;
+        const windowWidth = window.innerWidth;
+        const windowHeight = window.innerHeight;
+
+        if (bubbleX <= 0) {
+          bubbleSpeedX[i] = Math.abs(bubbleSpeedX[i]);
+        } else if (bubbleX + bubbleWidth >= windowWidth) {
+          bubbleSpeedX[i] = -Math.abs(bubbleSpeedX[i]);
+        }
+
+        if (bubbleY <= 0) {
+          bubbleSpeedY[i] = Math.abs(bubbleSpeedY[i]);
+        } else if (bubbleY + bubbleHeight >= windowHeight) {
+          bubbleSpeedY[i] = -Math.abs(bubbleSpeedY[i]);
+        }
+      }
+    }
+
+    function startMoving() {
+      for (let i = 0; i < bubbleElements.length; i++) {
+        bubbleSpeedX[i] = getRandomSpeed();
+        bubbleSpeedY[i] = getRandomSpeed();
+      }
+      setInterval(updateBubblePositions, 10);
+    }
+
+    function openBirthdayMessage() {
+      const birthdayMessage = document.getElementById('birthdayMessage');
+      const overlay = document.querySelector('.overlay');
+      birthdayMessage.style.display = 'block';
+      overlay.style.display = 'block';
+    }
+
+    function closeBirthdayMessage() {
+      const birthdayMessage = document.getElementById('birthdayMessage');
+      const overlay = document.querySelector('.overlay');
+      birthdayMessage.style.display = 'none';
+      overlay.style.display = 'none';
+    }
+
+    document.addEventListener('mousemove', moveBubble);
+    document.addEventListener('click', closeMessage);
+    startMoving();
+  </script>
+</body>
+</html>
+
+
+
+
+Working:
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Birthday Bubbles</title>
+  <style>
+    /* CSS for bubbles */
+    .bubble {
+      width: 100px;
+      height: 100px;
+      background-color: #FFC107;
+      border-radius: 50%;
+      position: absolute;
+      cursor: pointer; /* Use pointer instead of grab */
+    }
+
+    /* CSS for message box */
+    .message-box {
+      width: 1000px;
+      height: 600px;
+      background-color: #E91E63;
+      color: #FFF;
+      border-radius: 30px;
+      padding: 20px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: none;
+      z-index: 1; /* Move the image behind the message */
+      overflow: auto; /* Enable scrolling if content exceeds the box */
+    }
+
+    /* CSS for message content container */
+    .message-content-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* CSS for message image */
+    .message-image {
+      width: 600px;
+      height: 400px;
+      margin-top: 95px;
+      margin-left: 50px;
+      border-radius: 30px;
+      display: block;
+      top: 10%;
+      margin-right: 20px;
+      object-fit: cover;
+      
+    }
+
+    /* CSS for message content */
+    .message-content {
+      flex-grow: 1; /* Allow content to grow and occupy remaining space */
+    }
+
+    /* CSS for bubble message title */
+    .message-title {
+      font-size: 24px;
+      font-weight: bold;
+      color: #FFF;
+      margin: 10px 0;;
+    }
+
+    /* CSS for bubble message content */
+    .message-text {
+      color: #FFF;
+      margin-bottom: 20px;
+    }
+
+    /* CSS for image button */
+    .image-button {
+      width: 120px;
+      height: 120px;
+      position: absolute;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      cursor: pointer;
+    }
+
+    /* CSS for birthday message */
+    .birthday-message {
+      width: 300px;
+      height: 200px;
+      background-color: #FFF;
+      color: #333;
+      border-radius: 10px;
+      padding: 20px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: none;
+    }
+
+    /* CSS for overlay */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: none;
+    }
+
+    /* CSS for birthday image */
+    .birthday-image {
+      width: 800px;
+      height: 600px;
+      position: absolute;
+      top: 38%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: -1; /* Move the image behind the message */
+    }
+
+    .envelope {
+      width: 800px;
+      height: 600px;
+      background-color: #FFF;
+      color: #333;
+      border-radius: 30px;
+      padding: 20px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: none;
+      overflow: auto; /* Enable scrolling if content exceeds the box */
+      z-index: 2;
+  }
+
+  .envelope-image {
+      width: 600px;
+      height: 400px;
+      margin: 0 auto;
+      display: block;
+      border-radius: 30px;
+  }
+
+  .envelope-title {
+      font-size: 24px;
+      font-weight: bold;
+      margin-top: 30px;
+      color: #333;
+      margin: 10px 0;
+  }
+
+  .envelope-message {
+      color: #333;
+      margin-bottom: 20px;
+  }
+
+    body {
+      background-image: url('image.jpg');
+      background-size: 180%;
+      background-position: center;
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+  <div class="bubble" id="bubble1" onclick="openMessage('Hello, World!', 'bigsis.jpg', 'Happy Birthday Ading', 'Iaylabyo Bitch!! ^^ (YUCK) - Khey', event)" onmousedown="startDragging(event)" onmouseup="stopDragging(event)"></div>
+  <div class="bubble" id="bubble2" onclick="openMessage('Welcome to the birthday bubbles!', 'image2.png', 'Title 2', 'Message 2', event)" onmousedown="startDragging(event)" onmouseup="stopDragging(event)"></div>
+  <div class="bubble" id="bubble3" onclick="openMessage('Tap on a bubble to open a message.', 'image3.png', 'Title 3', 'Message 3', event)" onmousedown="startDragging(event)" onmouseup="stopDragging(event)"></div>
+  <div class="bubble" id="bubble4" onclick="openMessage('Bubbles make birthdays more fun!', 'image4.png', 'Title 4', 'Message 4', event)" onmousedown="startDragging(event)" onmouseup="stopDragging(event)"></div>
+  <div class="bubble" id="bubble5" onclick="openMessage('Enjoy the birthday celebration!', 'image5.png', 'Title 5', 'Message 5', event)" onmousedown="startDragging(event)" onmouseup="stopDragging(event)"></div>
+  <div class="bubble" id="bubble6" onclick="openMessage('Have a fantastic birthday!', 'image6.png', 'Title 6', 'Message 6', event)" onmousedown="startDragging(event)" onmouseup="stopDragging(event)"></div>
+  <div class="bubble" id="bubble7" onclick="openMessage('Wishing you a joyful day!', 'image7.png', 'Happy Bday Aleckcy', 'Wishing you a happy and safe 18th bday. Have a good party and with alot cof chocolates and cake', event)" onmousedown="startDragging(event)" onmouseup="stopDragging(event)"></div>
+
+  <div id="message" class="message-box"></div>
+
+  <div class="overlay" onclick="closeBirthdayMessage()"></div>
+
+  <img src="birthday_image.png" alt="Birthday Image" class="birthday-image">
+
+  <div class="image-button" onclick="openBirthdayMessage()">
+    <img src="envelope_button.png" alt="Envelope Button" width="90" height="90">
+  </div>
+
+  <div id="birthdayMessage" class="birthday-message">
+    <h2>Happy Birthday!</h2>
+    <p>Wishing you a wonderful day filled with joy, laughter, and love. May all your dreams and wishes come true on this special day. Have an amazing birthday!</p>
+  </div>
+
+  <div class="envelope">
+    <img src="envelope.png" alt="Envelope" class="envelope-image">
+    <div class="envelope-content">
+      <h3 class="envelope-title">Envelope Title</h3>
+      <p class="envelope-message">Envelope Message</p>
+    </div>
+  </div>
+  <div class="image-button" onclick="openEnvelopeMessage()">
+    <img src="envelope_button.png" alt="Envelope Button" width="90" height="90">
+  </div>
+  
+  
+
+  <script>
+    let bubbleElements = document.getElementsByClassName('bubble');
+    let isDragging = false;
+    let bubble = null;
+    let initialMouseX = 0;
+    let initialMouseY = 0;
+    let initialBubbleX = 0;
+    let initialBubbleY = 0;
+    let bubbleSpeedX = [];
+    let bubbleSpeedY = [];
+
+    function openMessage(text, image, title, message, event) {
+      event.stopPropagation(); // Prevent bubbling to close the message
+      const messageBox = document.getElementById('message');
+      messageBox.innerHTML = `
+        <div class="message-content-container">
+          <img src="${image}" class="message-image" alt="Bubble Message Image">
+          <div class="message-content">
+            <h3 class="message-title">${title}</h3>
+            <p class="message-text">${message}</p>
+          </div>
+        </div>
+      `;
+      messageBox.style.display = 'block';
+    }
+
+    function closeMessage() {
+      const messageBox = document.getElementById('message');
+      messageBox.style.display = 'none';
+    }
+    function openEnvelopeMessage() {
+  const envelopeMessage = document.querySelector('.envelope');
+  const overlay = document.querySelector('.overlay');
+  envelopeMessage.style.display = 'block';
+  overlay.style.display = 'block';
+}
+
+function closeEnvelopeMessage() {
+  const envelopeMessage = document.querySelector('.envelope');
+  const overlay = document.querySelector('.overlay');
+  envelopeMessage.style.display = 'none';
+  overlay.style.display = 'none';
+}
+
+
+
+    function startDragging(event) {
+      isDragging = true;
+      bubble = event.target;
+      initialMouseX = event.clientX;
+      initialMouseY = event.clientY;
+      const bubbleStyle = window.getComputedStyle(bubble);
+      initialBubbleX = parseFloat(bubbleStyle.left);
+      initialBubbleY = parseFloat(bubbleStyle.top);
+      bubble.style.cursor = 'grabbing';
+    }
+
+    function stopDragging(event) {
+      isDragging = false;
+      bubble.style.cursor = 'pointer'; // Restore pointer cursor
+    }
+
+    function moveBubble(event) {
+      if (isDragging) {
+        const deltaX = event.clientX - initialMouseX;
+        const deltaY = event.clientY - initialMouseY;
+        bubble.style.left = `${initialBubbleX + deltaX}px`;
+        bubble.style.top = `${initialBubbleY + deltaY}px`;
+      }
+    }
+
+    function getRandomSpeed() {
+      return (Math.random() - 0.5) * 2; // Random speed between -2 and 2
+    }
+
+    function updateBubblePositions() {
+      for (let i = 0; i < bubbleElements.length; i++) {
+        const bubble = bubbleElements[i];
+        const bubbleStyle = window.getComputedStyle(bubble);
+        let bubbleX = parseFloat(bubbleStyle.left);
+        let bubbleY = parseFloat(bubbleStyle.top);
+
+        // Update bubble position
+        bubbleX += bubbleSpeedX[i];
+        bubbleY += bubbleSpeedY[i];
+        bubble.style.left = `${bubbleX}px`;
+        bubble.style.top = `${bubbleY}px`;
+
+        // Check collision with window borders
+        const bubbleWidth = bubble.offsetWidth;
+        const bubbleHeight = bubble.offsetHeight;
+        const windowWidth = window.innerWidth;
+        const windowHeight = window.innerHeight;
+
+        if (bubbleX <= 0) {
+          bubbleSpeedX[i] = Math.abs(bubbleSpeedX[i]);
+        } else if (bubbleX + bubbleWidth >= windowWidth) {
+          bubbleSpeedX[i] = -Math.abs(bubbleSpeedX[i]);
+        }
+
+        if (bubbleY <= 0) {
+          bubbleSpeedY[i] = Math.abs(bubbleSpeedY[i]);
+        } else if (bubbleY + bubbleHeight >= windowHeight) {
+          bubbleSpeedY[i] = -Math.abs(bubbleSpeedY[i]);
+        }
+      }
+    }
+
+    function startMoving() {
+      for (let i = 0; i < bubbleElements.length; i++) {
+        bubbleSpeedX[i] = getRandomSpeed();
+        bubbleSpeedY[i] = getRandomSpeed();
+      }
+      setInterval(updateBubblePositions, 10);
+    }
+
+    function openBirthdayMessage() {
+      const birthdayMessage = document.getElementById('birthdayMessage');
+      const overlay = document.querySelector('.overlay');
+      birthdayMessage.style.display = 'block';
+      overlay.style.display = 'block';
+    }
+
+    function closeBirthdayMessage() {
+  const birthdayMessage = document.getElementById('birthdayMessage');
+  const envelopeMessage = document.querySelector('.envelope');
+  const overlay = document.querySelector('.overlay');
+  birthdayMessage.style.display = 'none';
+  envelopeMessage.style.display = 'none';
+  overlay.style.display = 'none';
+}
+
+
+    document.addEventListener('mousemove', moveBubble);
+    document.addEventListener('click', closeMessage);
+
+    startMoving();
+  </script>
+</body>
+</html>
+
+
+
+
+Main:
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Happy Birthday Aleckcy</title>
+  <style>
+    /* CSS for bubbles */
+    .bubble {
+      width: 100px;
+      height: 100px;
+      background-color: #FFC107;
+      border-radius: 50%;
+      position: relative;
+      cursor: pointer; /* Use pointer instead of grab */
+    }
+
+    /* CSS for message box */
+    .message-box {
+      width: 1000px;
+      height: 600px;
+      background-color: #E91E63;
+      color: #FFF;
+      border-radius: 30px;
+      padding: 20px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: none;
+      z-index: 1; /* Move the image behind the message */
+      overflow: auto; /* Enable scrolling if content exceeds the box */
+    }
+
+    /* CSS for message content container */
+    .message-content-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* CSS for message image */
+    .message-image {
+      width: 600px;
+      height: 400px;
+      margin-top: 95px;
+      margin-left: 50px;
+      border-radius: 30px;
+      display: block;
+      top: 10%;
+      margin-right: 20px;
+      object-fit: cover;
+      
+    }
+
+    /* CSS for message content */
+    .message-content {
+      flex-grow: 1; /* Allow content to grow and occupy remaining space */
+    }
+
+    /* CSS for bubble message title */
+    .message-title {
+      font-size: 24px;
+      font-weight: bold;
+      color: #FFF;
+      margin: 10px 0;;
+    }
+
+    /* CSS for bubble message content */
+    .message-text {
+      color: #FFF;
+      margin-bottom: 20px;
+    }
+
+    /* CSS for image button */
+    .image-button {
+      width: 120px;
+      height: 120px;
+      position: absolute;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      cursor: pointer;
+    }
+
+    /* CSS for birthday message */
+    .birthday-message {
+      width: 300px;
+      height: 200px;
+      background-color: #FFF;
+      color: #333;
+      border-radius: 10px;
+      padding: 20px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: none;
+    }
+
+    /* CSS for overlay */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: none;
+    }
+
+    /* CSS for birthday image */
+    .birthday-image {
+      width: 1000px;
+      height: 600px;
+      position: absolute;
+      top: 38%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: -1; /* Move the image behind the message */
+    }
+
+    .envelope {
+      width: 800px;
+      height: 600px;
+      background-color: #E91E63;
+      color: #333;
+      border-radius: 30px;
+      padding: 20px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: none;
+      overflow: auto; /* Enable scrolling if content exceeds the box */
+      z-index: 2;
+  }
+
+  .envelope-image {
+      width: 600px;
+      height: 400px;
+      margin-top: 30px;
+      margin-left: 90px;
+      display: block;
+      border-radius: 30px;
+  }
+
+  .envelope-title {
+      font-size: 24px;
+      font-weight: bold;
+      margin-top: 30px;
+      margin-left: 30px;
+      color: #FFF;
+      
+  }
+
+  .envelope-message {
+      color: #FFF;
+      margin-left: 30px;
+      margin-bottom: 20px;
+      font-size: 18px;
+  }
+  
+
+.bubble img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+
+.made-by {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  left: 820px;
+  color: #33315e;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+
+
+body {
+    background-image: url('image.jpg');
+    background-size: 180%;
+    background-position: center;
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+  </style>
+</head>
+<body>
+  <div class="bubble" id="bubble1" onclick="openMessage('', 'bigsisandbestie.jpg', 'Happy Birthday Ading', 'Happy birthday ading, aylabyo bitch!! =3=(YUCK) ¬3¬', event)" onmousedown="startDragging(event)" onmouseup="stopDragging(event)">
+    <img src="bigsis.png" alt="Bubble Image" width="100" height="100">
+  </div>
+  <div class="bubble" id="bubble2" onclick="openMessage('', 'image2.png', 'Happy Birthday, Mahalaga Ang Tubig', 'Uminom lagi ng maraming tubig', event)" onmousedown="startDragging(event)" onmouseup="stopDragging(event)">
+    <img src="bro.png" alt="Bubble Image" width="100" height="100">
+  </div>
+  <div class="bubble" id="bubble3" onclick="openMessage('', 'image3.png', 'Happy birthday Ading', 'Magtagumpay ka sna sa iyong buhay at matupad mga pangarap mo..<br> Stay humble..<br> Lage lang kaming nandito para sayo..love you...<br>Maligayang kaarawan sayo...🌹🌹🌹<br> - Papa', event)" onmousedown="startDragging(event)" onmouseup="stopDragging(event)">
+    <img src="besties_dad.png" alt="Bubble Image" width="100" height="100">
+  </div>
+  <div class="bubble" id="bubble4" onclick="openMessage('Bubbles make birthdays more fun!', 'image4.png', 'Title 4', 'Message 4', event)" onmousedown="startDragging(event)" onmouseup="stopDragging(event)"></div>
+  <div class="bubble" id="bubble5" onclick="openMessage('Enjoy the birthday celebration!', 'image5.png', 'Title 5', 'Message 5', event)" onmousedown="startDragging(event)" onmouseup="stopDragging(event)"></div>
+  <div class="bubble" id="bubble6" onclick="openMessage('Have a fantastic birthday!', 'image6.png', 'Title 6', 'Message 6', event)" onmousedown="startDragging(event)" onmouseup="stopDragging(event)"></div>
+  <div class="bubble" id="bubble7" onclick="openMessage('Wishing you a joyful day!', 'image7.png', 'Happy Bday Aleckcy', 'Wishing you a happy and safe 18th bday. Have a good party and with alot cof chocolates and cake', event)" onmousedown="startDragging(event)" onmouseup="stopDragging(event)"></div>
+
+  <div id="message" class="message-box"></div>
+
+  <div class="overlay" onclick="closeBirthdayMessage()"></div>
+
+  <img src="birthday_image.png" alt="Birthday Image" class="birthday-image">
+
+  <div class="image-button" onclick="openBirthdayMessage()">
+    <img src="envelope_button.png" alt="Envelope Button" width="90" height="90">
+  </div>
+
+  <div id="birthdayMessage" class="birthday-message">
+    <h2>Happy Birthday Ading</h2>
+    <p>Wish ko good health more blessings and more money to come, wag muna mag asawa mahal pa ang bigas 😁😂
+-mama</p>
+  </div>
+
+  
+  <div class="envelope">
+    <img src="envelope.png" alt="Envelope" class="envelope-image">
+    <div class="envelope-content">
+      <h3 class="envelope-title">Happy Birthday Ading</h3>
+      <p class="envelope-message">Wish ko good health more blessings and more money to come, wag muna mag<br> asawa mahal pa ang bigas 😁😂
+        - Mama</p>
+    </div>
+  </div>
+  <div class="image-button" onclick="openEnvelopeMessage()">
+    <img src="envelope_button.png" alt="Envelope Button" width="90" height="90">
+  </div>
+  <audio id="background-music" loop>
+    <source src="background_music.mp3" type="audio/mpeg">
+  </audio>
+  
+  
+  <div class="made-by">Made with ❤️ by Kheycel & Joshua</div>
+
+
+
+  
+  
+
+  <script>
+    let bubbleElements = document.getElementsByClassName('bubble');
+    let isDragging = false;
+    let bubble = null;
+    let initialMouseX = 0;
+    let initialMouseY = 0;
+    let initialBubbleX = 0;
+    let initialBubbleY = 0;
+    let bubbleSpeedX = [];
+    let bubbleSpeedY = [];
+
+
+
+
+
+
+    function openMessage(text, image, title, message, event) {
+      event.stopPropagation(); // Prevent bubbling to close the message
+      const messageBox = document.getElementById('message');
+      messageBox.innerHTML = `
+        <div class="message-content-container">
+          <img src="${image}" class="message-image" alt="Bubble Message Image">
+          <div class="message-content">
+            <h3 class="message-title">${title}</h3>
+            <p class="message-text">${message}</p>
+          </div>
+        </div>
+      `;
+      messageBox.style.display = 'block';
+    }
+
+    function closeMessage() {
+      const messageBox = document.getElementById('message');
+      messageBox.style.display = 'none';
+    }
+    function openEnvelopeMessage() {
+  const envelopeMessage = document.querySelector('.envelope');
+  const overlay = document.querySelector('.overlay');
+  envelopeMessage.style.display = 'block';
+  overlay.style.display = 'block';
+}
+
+function closeEnvelopeMessage() {
+  const envelopeMessage = document.querySelector('.envelope');
+  const overlay = document.querySelector('.overlay');
+  envelopeMessage.style.display = 'none';
+  overlay.style.display = 'none';
+}
+
+const backgroundMusic = document.getElementById('background-music');
+backgroundMusic.play();
+
+
+
+
+document.addEventListener('click', function(event) {
+  const fixedMessage = document.getElementById('fixedMessage');
+  if (event.target !== fixedMessage && !fixedMessage.contains(event.target)) {
+    fixedMessage.style.display = 'none';
+  }
+});
+
+
+    function startDragging(event) {
+      isDragging = true;
+      bubble = event.target;
+      initialMouseX = event.clientX;
+      initialMouseY = event.clientY;
+      const bubbleStyle = window.getComputedStyle(bubble);
+      initialBubbleX = parseFloat(bubbleStyle.left);
+      initialBubbleY = parseFloat(bubbleStyle.top);
+      bubble.style.cursor = 'grabbing';
+    }
+
+    function stopDragging(event) {
+      isDragging = false;
+      bubble.style.cursor = 'pointer'; // Restore pointer cursor
+    }
+
+    function moveBubble(event) {
+      if (isDragging) {
+        const deltaX = event.clientX - initialMouseX;
+        const deltaY = event.clientY - initialMouseY;
+        bubble.style.left = `${initialBubbleX + deltaX}px`;
+        bubble.style.top = `${initialBubbleY + deltaY}px`;
+      }
+    }
+
+    function getRandomSpeed() {
+      return (Math.random() - 0.5) * 2; // Random speed between -2 and 2
+    }
+
+    function updateBubblePositions() {
+      for (let i = 0; i < bubbleElements.length; i++) {
+        const bubble = bubbleElements[i];
+        const bubbleStyle = window.getComputedStyle(bubble);
+        let bubbleX = parseFloat(bubbleStyle.left);
+        let bubbleY = parseFloat(bubbleStyle.top);
+
+        // Update bubble position
+        bubbleX += bubbleSpeedX[i];
+        bubbleY += bubbleSpeedY[i];
+        bubble.style.left = `${bubbleX}px`;
+        bubble.style.top = `${bubbleY}px`;
+
+        // Check collision with window borders
+        const bubbleWidth = bubble.offsetWidth;
+        const bubbleHeight = bubble.offsetHeight;
+        const windowWidth = window.innerWidth;
+        const windowHeight = window.innerHeight;
+
+        if (bubbleX <= 0) {
+          bubbleSpeedX[i] = Math.abs(bubbleSpeedX[i]);
+        } else if (bubbleX + bubbleWidth >= windowWidth) {
+          bubbleSpeedX[i] = -Math.abs(bubbleSpeedX[i]);
+        }
+
+        if (bubbleY <= 0) {
+          bubbleSpeedY[i] = Math.abs(bubbleSpeedY[i]);
+        } else if (bubbleY + bubbleHeight >= windowHeight) {
+          bubbleSpeedY[i] = -Math.abs(bubbleSpeedY[i]);
+        }
+      }
+    }
+
+    function startMoving() {
+      for (let i = 0; i < bubbleElements.length; i++) {
+        bubbleSpeedX[i] = getRandomSpeed();
+        bubbleSpeedY[i] = getRandomSpeed();
+      }
+      setInterval(updateBubblePositions, 10);
+    }
+
+    function openBirthdayMessage() {
+      const birthdayMessage = document.getElementById('birthdayMessage');
+      const overlay = document.querySelector('.overlay');
+      birthdayMessage.style.display = 'block';
+      overlay.style.display = 'block';
+    }
+
+    function closeBirthdayMessage() {
+  const birthdayMessage = document.getElementById('birthdayMessage');
+  const envelopeMessage = document.querySelector('.envelope');
+  const overlay = document.querySelector('.overlay');
+  birthdayMessage.style.display = 'none';
+  envelopeMessage.style.display = 'none';
+  overlay.style.display = 'none';
+}
+
+
+    document.addEventListener('mousemove', moveBubble);
+    document.addEventListener('click', closeMessage);
+
+    startMoving();
+  </script>
+</body>
+</html>
